@@ -1,6 +1,7 @@
 import sys
 import contextvars
 import uuid
+from collections.abc import Callable
 from pathlib import Path
 from loguru import logger
 from app.config.settings import settings
@@ -52,5 +53,25 @@ def set_trace_id(new_id: str = None) -> str:
     tid = new_id or uuid.uuid4().hex[:8]
     trace_id_var.set(tid)
     return tid
+
+def add_custom_file(
+    file_name: str,
+    log_dir: Path | None = None,
+    level: str = "INFO",
+    filter_rule: str | Callable | None = None,
+) -> int:
+    """
+    运行时添加一个额外的文件日志输出，并返回对应的 handler id。
+    """
+    target_dir = log_dir or settings.resolved_log_dir
+    target_dir.mkdir(parents=True, exist_ok=True)
+
+    handler_id = logger.add(
+        target_dir / file_name,
+        level=level,
+        rotation="10 MB",
+        filter=filter_rule,
+    )
+    return handler_id
 
 setup_logger()
