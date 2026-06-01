@@ -1,5 +1,7 @@
 from contextlib import asynccontextmanager
-from loguru import logger
+from app.core.logger import logger
+from app.core.banner import show_banner
+from app.config.settings import settings
 
 class AppLifecycle:
     """
@@ -9,6 +11,7 @@ class AppLifecycle:
         self._resources = []
 
     async def on_startup(self):
+        show_banner(text=settings.app_name, font="slant")
         logger.info("正在初始化应用程序资源...")
         # 在此处添加资源初始化逻辑（例如：数据库连接池、LLM 预热）
         logger.info("应用程序启动完成。")
