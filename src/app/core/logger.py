@@ -9,12 +9,17 @@ from app.config.settings import settings
 # 1. 定义全局上下文变量
 trace_id_var = contextvars.ContextVar("trace_id", default="system")
 
-def setup_logger() -> None:
+def setup_logger(
+    log_dir: Path | None = None,
+    log_level: str | None = None,
+    log_file_name: str = "system_{time:YYYY-MM-DD}.log",
+) -> Path:
     """
     配置 loguru 以实现结构化日志，并支持 Trace ID（通过 ContextVars 动态获取）。
     """
-    log_dir = settings.resolved_log_dir
-    log_dir.mkdir(parents=True, exist_ok=True)
+    target_dir = log_dir or settings.resolved_log_dir
+    target_level = log_level or settings.log_level
+    target_dir.mkdir(parents=True, exist_ok=True)
 
     logger.remove()
 
@@ -29,22 +34,24 @@ def setup_logger() -> None:
 
     logger.add(
         sys.stdout,
-        level=settings.log_level,
+        level=target_level,
         colorize=True,
         format=log_format,
     )
 
     logger.add(
-        log_dir / "app_{time:YYYY-MM-DD}.log",
+        target_dir / log_file_name,
         rotation="00:00",
         retention="30 days",
-        level=settings.log_level,
+        level=target_level,
         enqueue=True,
         format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | trace_id={extra[trace_id]} | {name}:{line} - {message}",
     )
 
     # 2. 使用 patcher 动态注入当前上下文的 trace_id
     logger.configure(patcher=lambda record: record["extra"].update(trace_id=trace_id_var.get()))
+
+    return target_dir
 
 def set_trace_id(new_id: str = None) -> str:
     """
