@@ -12,7 +12,7 @@ trace_id_var = contextvars.ContextVar("trace_id", default="system")
 def setup_logger(
     log_dir: Path | None = None,
     log_level: str | None = None,
-    log_file_name: str = "system_{time:YYYY-MM-DD}.log",
+    log_prefix: str = "system",
 ) -> Path:
     """
     配置 loguru 以实现结构化日志，并支持 Trace ID（通过 ContextVars 动态获取）。
@@ -20,6 +20,7 @@ def setup_logger(
     target_dir = log_dir or settings.resolved_log_dir
     target_level = log_level or settings.log_level
     target_dir.mkdir(parents=True, exist_ok=True)
+    log_file_name = f"{log_prefix}_{time:YYYY-MM-DD}.log"
 
     logger.remove()
 
