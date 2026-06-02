@@ -20,5 +20,5 @@ repos:
         name: Generate .env.example from .env
         entry: python scripts/generate_env_example.py
         language: python
-        files: ^\.env$   
-        pass_filenames: false  
+        always_run: true
+        pass_filenames: false
