@@ -5,6 +5,8 @@ from collections.abc import Callable
 from pathlib import Path
 from loguru import logger
 from app.config.settings import settings
+from app.config.enums import AppEnv
+
 
 # 1. 定义全局上下文变量
 trace_id_var = contextvars.ContextVar("trace_id", default="system")
@@ -22,6 +24,8 @@ def setup_logger(
     target_dir.mkdir(parents=True, exist_ok=True)
     log_file_name = f"{log_prefix}_{time:YYYY-MM-DD}.log"
 
+    is_development = (settings.app_env == AppEnv.DEV)
+    
     logger.remove()
 
     # 标准格式，使用 {extra[trace_id]} 占位符
@@ -36,7 +40,7 @@ def setup_logger(
     logger.add(
         sys.stdout,
         level=target_level,
-        colorize=True,
+       colorize=is_development,
         format=log_format,
     )
 
