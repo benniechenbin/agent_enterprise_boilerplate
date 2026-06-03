@@ -1,17 +1,22 @@
 from functools import lru_cache
 from pathlib import Path
-from typing import Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 from app.config.enums import AppEnv, ModelProvider
 
-def find_project_root(current_path: Path, markers: tuple = ("pyproject.toml", "requirements.txt", ".git")) -> Path:   
+
+def find_project_root(
+    current_path: Path, markers: tuple[str, ...] = ("pyproject.toml", "requirements.txt", ".git")
+) -> Path:
     for parent in current_path.parents:
         if any((parent / marker).exists() for marker in markers):
-            return parent    
+            return parent
     return current_path.parent
 
+
 BASE_DIR = find_project_root(Path(__file__).resolve())
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -30,15 +35,15 @@ class Settings(BaseSettings):
 
     # LLM 配置
     default_model_provider: ModelProvider = ModelProvider.OPENAI
-    openai_api_key: Optional[str] = None
-    openai_api_base: Optional[str] = None
-    
-    anthropic_api_key: Optional[str] = None
-    google_api_key: Optional[str] = None
-    deepseek_api_key: Optional[str] = None
+    openai_api_key: str | None = None
+    openai_api_base: str | None = None
+
+    anthropic_api_key: str | None = None
+    google_api_key: str | None = None
+    deepseek_api_key: str | None = None
 
     # 工具配置
-    tavily_api_key: Optional[str] = None
+    tavily_api_key: str | None = None
 
     @property
     def resolved_log_dir(self) -> Path:

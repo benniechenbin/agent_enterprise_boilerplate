@@ -1,15 +1,18 @@
-import sys
 import contextvars
+import sys
 import uuid
 from collections.abc import Callable
 from pathlib import Path
-from loguru import logger
-from app.config.settings import settings
-from app.config.enums import AppEnv
+from typing import Any
 
+from loguru import logger as logger
+
+from app.config.enums import AppEnv
+from app.config.settings import settings
 
 # 1. 定义全局上下文变量
 trace_id_var = contextvars.ContextVar("trace_id", default="system")
+
 
 def setup_logger(
     log_dir: Path | None = None,
@@ -22,10 +25,10 @@ def setup_logger(
     target_dir = log_dir or settings.resolved_log_dir
     target_level = log_level or settings.log_level
     target_dir.mkdir(parents=True, exist_ok=True)
-    log_file_name = f"{log_prefix}_{time:YYYY-MM-DD}.log"
+    log_file_name = f"{log_prefix}_{{time:YYYY-MM-DD}}.log"
 
-    is_development = (settings.app_env == AppEnv.DEV)
-    
+    is_development = settings.app_env == AppEnv.DEV
+
     logger.remove()
 
     # 标准格式，使用 {extra[trace_id]} 占位符
@@ -40,7 +43,7 @@ def setup_logger(
     logger.add(
         sys.stdout,
         level=target_level,
-       colorize=is_development,
+        colorize=is_development,
         format=log_format,
     )
 
@@ -50,7 +53,10 @@ def setup_logger(
         retention="30 days",
         level=target_level,
         enqueue=True,
-        format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | trace_id={extra[trace_id]} | {name}:{line} - {message}",
+        format=(
+            "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | "
+            "trace_id={extra[trace_id]} | {name}:{line} - {message}"
+        ),
     )
 
     # 2. 使用 patcher 动态注入当前上下文的 trace_id
@@ -58,7 +64,8 @@ def setup_logger(
 
     return target_dir
 
-def set_trace_id(new_id: str = None) -> str:
+
+def set_trace_id(new_id: str | None = None) -> str:
     """
     设置当前协程/线程的 Trace ID。
     """
@@ -66,11 +73,12 @@ def set_trace_id(new_id: str = None) -> str:
     trace_id_var.set(tid)
     return tid
 
+
 def add_custom_file(
     file_name: str,
     log_dir: Path | None = None,
     level: str = "INFO",
-    filter_rule: str | Callable | None = None,
+    filter_rule: str | Callable[..., Any] | None = None,
 ) -> int:
     """
     运行时添加一个额外的文件日志输出，并返回对应的 handler id。
@@ -85,5 +93,6 @@ def add_custom_file(
         filter=filter_rule,
     )
     return handler_id
+
 
 setup_logger()
