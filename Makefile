@@ -1,19 +1,27 @@
-.PHONY: run test lint format clean
+.PHONY: run test lint check clean install
+
+install:
+	uv sync
 
 run:
-	uv run run-app
+	uv run python -m agent_enterprise.main
 
 test:
-	uv run pytest tests/
+	uv run pytest tests/ -v
 
 lint:
 	uv run ruff check .
-	uv run mypy src/
-
-format:
 	uv run ruff format .
 
+check:
+	uv run ruff check .
+	uv run mypy src/
+
 clean:
-	find . -type d -name "__pycache__" -exec rm -rf {} +
-	find . -type d -name "*.egg-info" -exec rm -rf {} +
-	rm -rf .pytest_cache .coverage .mypy_cache
+	rm -rf `find . -name __pycache__`
+	rm -rf .pytest_cache
+	rm -rf .ruff_cache
+	rm -rf .mypy_cache
+	rm -rf dist
+	rm -rf build
+	rm -rf *.egg-info
