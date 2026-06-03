@@ -1,0 +1,42 @@
+name: CI Pipeline
+
+# 触发器：当代码推送到 main 或 master 分支时自动触发
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest  # GitHub 免费提供的一台 Ubuntu Linux 云服务器
+
+    steps:
+    # 1. 把你的代码下载到这台云服务器上
+    - name: 📥 Check out repository
+      uses: actions/checkout@v4
+
+   # 2. 安装 uv 并自动设置 Python
+    - name: ⚡ Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        python-version: "3.10"
+        enable-cache: true
+
+    # 3. 安装 Python (可以直接读取你项目里的 .python-version)
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    # 4. 让 uv 根据你的 uv.lock 瞬间安装所有依赖
+    - name: 📦 Install dependencies
+      run: uv sync --extra dev
+
+    # 5. 核心：运行检查（Linting & Type Checking）
+    - name: 🔍 Run checks
+      run: make check
+
+    # 6. 核心：运行测试！
+    - name: 🧪 Run tests
+      run: make test
