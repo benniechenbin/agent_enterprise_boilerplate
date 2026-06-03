@@ -1,5 +1,7 @@
 from pathlib import Path
+
 from app.config.settings import Settings
+
 
 def test_relative_log_dir_resolves(tmp_path: Path) -> None:
     # Note: BASE_DIR is fixed in settings.py, so we test the property logic

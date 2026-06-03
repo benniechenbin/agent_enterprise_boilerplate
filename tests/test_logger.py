@@ -1,6 +1,5 @@
-from pathlib import Path
 from loguru import logger
-from app.core.logger import setup_logger
+
 
 def test_setup_logger_initializes() -> None:
     # Logger is already setup on import of app.core.logger
