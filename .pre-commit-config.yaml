@@ -1,5 +1,5 @@
 repos:
-  # 1. 你的本地环境变量同步脚本
+  # 1. 本地环境变量同步脚本
   - repo: local
     hooks:
       - id: generate-env-example
