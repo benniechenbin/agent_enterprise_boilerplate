@@ -1,5 +1,5 @@
 # 使用 uv 官方镜像进行多阶段构建
-FROM astral-sh/uv:python3.10-alpine AS builder
+FROM ghcr.io/astral-sh/uv:python3.10-alpine AS builder
 
 # 设置工作目录
 WORKDIR /app
