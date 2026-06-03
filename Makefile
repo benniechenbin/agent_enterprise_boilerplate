@@ -4,7 +4,7 @@ install:
 	uv sync
 
 run:
-	uv run python -m agent_enterprise.main
+	uv run python -m app.main
 
 test:
 	uv run pytest tests/ -v
@@ -15,6 +15,7 @@ lint:
 
 check:
 	uv run ruff check .
+	uv run ruff format . --check
 	uv run mypy src/
 
 clean:

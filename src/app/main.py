@@ -2,9 +2,12 @@ import asyncio
 
 from loguru import logger
 
+from app.core.lifecycle import lifespan
+
 
 async def main_async() -> None:
-    pass
+    async with lifespan():
+        logger.info("应用启动链路验证完成。")
 
 
 def main() -> None:

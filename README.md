@@ -1,27 +1,28 @@
-# Python 项目开局模板 (Enhanced)
+# Agent Enterprise Boilerplate
 
-这是一个现代化、生产就绪的 Python 项目模板，采用了工业界的最佳实践。
+面向企业级 Agent 项目的 Python 起手式。模板默认使用 `src/app` 作为唯一代码包，并把打包、命令入口、测试覆盖率、Docker 启动和 README 全部指向同一个包，避免新项目一开始就出现入口漂移。
 
 ## 核心特性
 
-- **uv 驱动**：使用目前最快的 Python 依赖管理工具。
-- **src 布局**：防止意外导入，确保测试环境与安装环境一致。
-- **严格类型**：内置 `mypy` 配置，支持静态类型检查。
-- **极致检测**：集成 `ruff` (Linter & Formatter)、`pytest` (Tests & Coverage)。
-- **自动化**：提供 `Makefile`、`pre-commit` 钩子和 GitHub Actions CI 流程。
-- **容器化**：提供多阶段构建的 `Dockerfile` 和 `docker-compose.yml`。
-- **健壮配置**：基于 `pydantic-settings` 的强类型配置管理。
+- `uv` 管理依赖和锁文件
+- `src/app` 布局
+- `ruff`、`mypy`、`pytest`、`pytest-cov`
+- `pre-commit` 和 GitHub Actions CI
+- Docker 多阶段构建
+- 基于 `pydantic-settings` 的强类型配置
+- 基于 `loguru` 的日志和 trace id
+- Agent 生命周期与 LLM provider 容器预留
 
 ## 目录结构
 
 ```text
-src/python_project/    核心代码空间 (需重命名为你的项目名)
-├── config/            配置与环境变量加载
-├── core/              项目启动与初始化入口
-├── observability/     日志与可观测性辅助模块
+src/app/
+├── api/               API 或工具路由预留
+├── config/            配置、枚举和环境变量加载
+├── core/              容器、生命周期、日志和启动辅助
 └── main.py            应用主入口
 tests/                 自动化测试
-docs/                  (预留) 文档目录
+skills/                Agent prompt 模板
 Dockerfile             容器镜像定义
 Makefile               常用指令集
 pyproject.toml         项目定义与工具链配置
@@ -30,47 +31,50 @@ pyproject.toml         项目定义与工具链配置
 
 ## 快速开始
 
-### 1. 环境准备 (推荐使用 uv)
-
-```powershell
-# 安装依赖并创建虚拟环境
-uv sync
-
-# 复制配置文件
+```bash
+uv sync --extra dev
 cp .env.example .env
 ```
 
-### 2. 运行应用
+运行应用：
 
-```powershell
-# 使用 Makefile 命令
+```bash
 make run
-
-# 或直接运行
-uv run python -m python_project.main
+# 或
+uv run python -m app.main
 ```
 
-## 开发常用指令
+默认 provider 是 `openai`。启动前会校验当前 provider 所需的 API key，例如 `OPENAI_API_KEY`。
+
+## 开发指令
 
 | 指令 | 说明 |
 | :--- | :--- |
-| `make install` | 安装所有依赖 |
-| `make test` | 运行测试并查看覆盖率 |
-| `make lint` | 运行 Ruff 自动修复并格式化代码 |
-| `make check` | 运行 Ruff 检查和 Mypy 类型检查 |
-| `make clean` | 清理缓存和临时文件 |
+| `make install` | 安装依赖 |
+| `make run` | 运行应用入口 |
+| `make test` | 运行测试和覆盖率 |
+| `make lint` | 自动修复 Ruff 问题并格式化 |
+| `make check` | 运行 Ruff、格式检查和 Mypy |
+| `make clean` | 清理缓存和构建产物 |
 
-## Docker 运行
+## Docker
 
 ```bash
 docker-compose up --build
 ```
 
-## 进阶建议
+## 模板生成建议
 
-1. **重命名包名**：将 `src/python_project` 文件夹重命名为你自己的项目包名（如 `src/my_awesome_app`），并同步修改 `pyproject.toml` 中的相关引用。
-2. **启用 pre-commit**：运行 `uv run pre-commit install`，这样在每次 `git commit` 时都会自动执行代码风格和类型检查。
-3. **扩展配置**：在 `src/python_project/config/settings.py` 中添加你的业务特定配置项。
+如果要把它扩展成团队级模板，建议下一步引入 Copier 或 Cookiecutter，并把这些变量集中管理：
+
+- `project_name`
+- `package_name`
+- `python_version`
+- `app_type`
+- `with_docker`
+- `with_agent`
+
+当前仓库已先固定为 `src/app`，保证这个版本开箱时所有入口一致。
 
 ## License
 

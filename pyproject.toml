@@ -9,6 +9,7 @@ description = "Enterprise-grade multi-agent orchestration boilerplate."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "langchain-openai>=0.2.0",
     "loguru>=0.7.2",
     "pydantic-settings>=2.2.1",
     "pyfiglet>=0.8.1",
@@ -24,8 +25,7 @@ dev = [
 ]
 
 [project.scripts]
-project-bootstrap = "python_project.core.bootstrap:main"
-run-app = "python_project.main:main"
+run-app = "app.main:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/app"]
@@ -33,7 +33,7 @@ packages = ["src/app"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
-addopts = "--cov=python_project --cov-report=term-missing"
+addopts = "--cov=app --cov-report=term-missing --cov-report=xml"
 
 [tool.ruff]
 line-length = 100
@@ -49,5 +49,5 @@ ignore_missing_imports = true
 exclude = ["tests"]
 
 [tool.coverage.run]
-source = ["python_project"]
+source = ["app"]
 omit = ["tests/*", "**/__init__.py"]

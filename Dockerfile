@@ -37,4 +37,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 COPY src ./src
 
 # 设置默认启动命令
-CMD ["python", "-m", "python_project.main"]
+CMD ["python", "-m", "app.main"]
