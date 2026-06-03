@@ -38,13 +38,3 @@ repos:
           "--warn-unreachable"
         ]
         files: ^src/
-
-  # 4. 你的本地环境变量同步脚本
-  - repo: local
-    hooks:
-      - id: generate-env-example
-        name: Generate .env.example from .env
-        entry: python scripts/generate_env_example.py
-        language: python
-        always_run: true
-        pass_filenames: false
