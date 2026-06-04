@@ -15,24 +15,58 @@ class Settings(BaseSettings):
         populate_by_name=True,
     )
 
-    app_name: str = "agent-enterprise-boilerplate"
-    app_env: AppEnv = AppEnv.DEV
+    app_name: str = Field(
+        default="agent-enterprise-boilerplate",
+        description="Application name used in logs and runtime metadata.",
+    )
+    app_env: AppEnv = Field(
+        default=AppEnv.DEV,
+        description="Runtime environment: development, testing, or production.",
+    )
 
-    log_dir: Path = Path("logs")
-    log_level: str = "INFO"
+    log_dir: Path = Field(
+        default=Path("logs"),
+        description="Log directory. Relative paths resolve from the working directory.",
+    )
+    log_level: str = Field(
+        default="INFO",
+        description="Log level such as DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
+    )
 
-    default_model_provider: ModelProvider = ModelProvider.OPENAI
-    model_name: str = "gpt-4o-mini"
-    openai_api_key: SecretStr | None = None
-    openai_api_base: str | None = None
+    default_model_provider: ModelProvider = Field(
+        default=ModelProvider.OPENAI,
+        description="Default model provider.",
+    )
+    model_name: str = Field(
+        default="gpt-4o-mini",
+        description="Default model name.",
+    )
+    openai_api_key: SecretStr | None = Field(
+        default=None,
+        description="OpenAI API key.",
+    )
+    openai_api_base: str | None = Field(
+        default=None,
+        description="Optional OpenAI-compatible API base URL.",
+    )
 
-    anthropic_api_key: SecretStr | None = None
+    anthropic_api_key: SecretStr | None = Field(
+        default=None,
+        description="Anthropic API key.",
+    )
     google_api_key: SecretStr | None = Field(
         default=None,
         validation_alias=AliasChoices("GOOGLE_API_KEY", "GEMINI_API_KEY"),
+        description="Google or Gemini API key. GOOGLE_API_KEY is the preferred name.",
     )
-    deepseek_api_key: SecretStr | None = None
-    tavily_api_key: SecretStr | None = None
+    deepseek_api_key: SecretStr | None = Field(
+        default=None,
+        description="DeepSeek API key.",
+    )
+    tavily_api_key: SecretStr | None = Field(
+        default=None,
+        description="Tavily API key used by an optional search integration.",
+    )
 
     @property
     def resolved_log_dir(self) -> Path:

@@ -31,6 +31,11 @@ uv run mypy .
 
 Copy `.env.example` to `.env` only when a real provider-backed service needs
 credentials. The default skeleton run does not require an API key.
+`.env.example` is generated from `app.config.settings.Settings`:
+
+```bash
+make env-example
+```
 
 Run the one-shot CLI container with:
 

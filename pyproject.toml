@@ -36,7 +36,7 @@ package = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 addopts = "--cov=app --cov-report=term-missing --cov-report=xml"
 
 [tool.ruff]
