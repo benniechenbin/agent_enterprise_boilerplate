@@ -1,21 +1,24 @@
 import asyncio
+from dataclasses import dataclass
+from typing import Any
 
-from app.core.lifecycle import lifecycle
-from app.main import main_async
+from agent_enterprise_boilerplate import main as main_module
 
 
-def test_main_async_runs_lifecycle(monkeypatch) -> None:
-    events: list[str] = []
+def test_main_async_delegates_to_runner(monkeypatch) -> None:
+    inputs: list[str] = []
 
-    async def on_startup() -> None:
-        events.append("startup")
+    class StubRunner:
+        async def arun(self, input_data: str) -> dict[str, Any]:
+            inputs.append(input_data)
+            return {"status": "completed"}
 
-    async def on_shutdown() -> None:
-        events.append("shutdown")
+    @dataclass
+    class StubApp:
+        runner: StubRunner
 
-    monkeypatch.setattr(lifecycle, "on_startup", on_startup)
-    monkeypatch.setattr(lifecycle, "on_shutdown", on_shutdown)
+    monkeypatch.setattr(main_module, "build_app", lambda: StubApp(runner=StubRunner()))
 
-    asyncio.run(main_async())
+    asyncio.run(main_module.main_async())
 
-    assert events == ["startup", "shutdown"]
+    assert inputs == ["Create a simple plan."]

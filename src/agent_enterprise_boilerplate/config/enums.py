@@ -1,13 +1,13 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class AppEnv(str, Enum):
+class AppEnv(StrEnum):
     DEV = "development"
     TEST = "testing"
     PROD = "production"
 
 
-class ModelProvider(str, Enum):
+class ModelProvider(StrEnum):
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
     GOOGLE = "google"

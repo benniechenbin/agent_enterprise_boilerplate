@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from app.config.enums import ModelProvider
-from app.config.settings import BASE_DIR, Settings
+from agent_enterprise_boilerplate.config.enums import ModelProvider
+from agent_enterprise_boilerplate.config.settings import BASE_DIR, Settings
 
 
 def test_relative_log_dir_resolves_from_project_root() -> None:

@@ -1,8 +1,8 @@
 import pytest
 
-from app.config.enums import ModelProvider
-from app.config.settings import Settings
-from app.core.container import Container
+from agent_enterprise_boilerplate.config.enums import ModelProvider
+from agent_enterprise_boilerplate.config.settings import Settings
+from agent_enterprise_boilerplate.container.container import Container
 
 
 def test_container_validate_rejects_missing_openai_key() -> None:
@@ -26,3 +26,9 @@ def test_container_validate_accepts_openai_key() -> None:
     container = Container(app_settings=app_settings)
 
     container.validate()
+
+
+def test_container_build_registers_search_tool() -> None:
+    container = Container.build(app_settings=Settings(_env_file=None))
+
+    assert "search" in container.tools.names()

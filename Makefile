@@ -4,7 +4,7 @@ install:
 	uv sync
 
 run:
-	uv run python -m app.main
+	uv run agent-app
 
 test:
 	uv run pytest tests/ -v

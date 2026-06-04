@@ -1,5 +1,5 @@
 # 使用 uv 官方镜像进行多阶段构建
-FROM ghcr.io/astral-sh/uv:python3.10-alpine AS builder
+FROM ghcr.io/astral-sh/uv:python3.11-alpine AS builder
 
 # 设置工作目录
 WORKDIR /app
@@ -23,7 +23,7 @@ COPY README.md ./
 RUN uv sync --no-dev
 
 # 运行阶段
-FROM python:3.10-alpine
+FROM python:3.11-alpine
 
 WORKDIR /app
 
@@ -37,4 +37,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 COPY src ./src
 
 # 设置默认启动命令
-CMD ["python", "-m", "app.main"]
+CMD ["agent-app"]

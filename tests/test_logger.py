@@ -2,7 +2,11 @@ from pathlib import Path
 
 from loguru import logger
 
-from app.core.logger import set_trace_id, setup_logger
+from agent_enterprise_boilerplate.observability.logger import (
+    get_trace_id,
+    set_trace_id,
+    setup_logger,
+)
 
 
 def test_setup_logger_creates_log_dir(tmp_path: Path) -> None:
@@ -19,3 +23,4 @@ def test_logger_accepts_trace_id(tmp_path: Path) -> None:
     set_trace_id("test-trace")
 
     logger.info("test message")
+    assert get_trace_id() == "test-trace"

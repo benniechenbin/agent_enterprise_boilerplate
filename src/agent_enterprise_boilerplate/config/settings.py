@@ -4,11 +4,12 @@ from pathlib import Path
 from pydantic import AliasChoices, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from app.config.enums import AppEnv, ModelProvider
+from agent_enterprise_boilerplate.config.enums import AppEnv, ModelProvider
 
 
 def find_project_root(
-    current_path: Path, markers: tuple[str, ...] = ("pyproject.toml", "requirements.txt", ".git")
+    current_path: Path,
+    markers: tuple[str, ...] = ("pyproject.toml", "requirements.txt", ".git"),
 ) -> Path:
     for parent in current_path.parents:
         if any((parent / marker).exists() for marker in markers):
@@ -27,15 +28,12 @@ class Settings(BaseSettings):
         populate_by_name=True,
     )
 
-    # 项目配置
     app_name: str = "agent-enterprise-boilerplate"
     app_env: AppEnv = AppEnv.DEV
 
-    # 日志配置
     log_dir: Path = Path("logs")
     log_level: str = "INFO"
 
-    # LLM 配置
     default_model_provider: ModelProvider = ModelProvider.OPENAI
     model_name: str = "gpt-4o-mini"
     openai_api_key: SecretStr | None = None
@@ -47,15 +45,10 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("GOOGLE_API_KEY", "GEMINI_API_KEY"),
     )
     deepseek_api_key: SecretStr | None = None
-
-    # 工具配置
     tavily_api_key: SecretStr | None = None
 
     @property
     def resolved_log_dir(self) -> Path:
-        """
-        获取解析后的绝对日志目录路径。
-        """
         if self.log_dir.is_absolute():
             return self.log_dir
         return BASE_DIR / self.log_dir
