@@ -7,19 +7,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from app.config.enums import AppEnv, ModelProvider
 
 
-def find_project_root(
-    current_path: Path,
-    markers: tuple[str, ...] = ("pyproject.toml", "requirements.txt", ".git"),
-) -> Path:
-    for parent in current_path.parents:
-        if any((parent / marker).exists() for marker in markers):
-            return parent
-    return current_path.parent
-
-
-BASE_DIR = find_project_root(Path(__file__).resolve())
-
-
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -51,7 +38,7 @@ class Settings(BaseSettings):
     def resolved_log_dir(self) -> Path:
         if self.log_dir.is_absolute():
             return self.log_dir
-        return BASE_DIR / self.log_dir
+        return Path.cwd() / self.log_dir
 
     def require_provider_credentials(self, provider: ModelProvider | None = None) -> None:
         selected_provider = provider or self.default_model_provider
@@ -69,6 +56,3 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-
-
-settings = get_settings()

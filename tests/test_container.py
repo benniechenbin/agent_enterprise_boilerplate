@@ -28,7 +28,7 @@ def test_container_validate_accepts_openai_key() -> None:
     container.validate()
 
 
-def test_container_build_registers_search_tool() -> None:
+def test_container_build_does_not_register_placeholder_tools() -> None:
     container = Container.build(app_settings=Settings(_env_file=None))
 
-    assert "search" in container.tools.names()
+    assert container.tools.names() == ()

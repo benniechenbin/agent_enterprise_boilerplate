@@ -41,5 +41,11 @@ jobs:
     - name: Run tests
       run: make test
 
+    - name: Run application smoke test
+      run: uv run agent-app
+
     - name: Build Docker image
       run: docker build -t agent-enterprise-boilerplate:ci .
+
+    - name: Run Docker smoke test
+      run: docker run --rm agent-enterprise-boilerplate:ci

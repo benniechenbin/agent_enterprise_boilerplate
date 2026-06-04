@@ -32,6 +32,12 @@ uv run mypy .
 Copy `.env.example` to `.env` only when a real provider-backed service needs
 credentials. The default skeleton run does not require an API key.
 
+Run the one-shot CLI container with:
+
+```bash
+docker compose run --rm app
+```
+
 ## Package Boundaries
 
 - `lifecycle.py`: lightweight bootstrap and optional lifespan hook
@@ -40,6 +46,7 @@ credentials. The default skeleton run does not require an API key.
 - `workflows/`: workflow abstraction and LangGraph implementation
 - `workflows/nodes/`: LangGraph node adapters
 - `agents/`: future standalone agent capabilities
+- `resources/`: packaged runtime prompts and other static resources
 - `tools/`: tool interfaces and registry
 - `services/`: external service interfaces
 - `observability/`: logging and future observability extension points

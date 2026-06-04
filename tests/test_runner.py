@@ -1,9 +1,24 @@
 import asyncio
 from pathlib import Path
+from typing import Any
 
 from app.config.enums import AppEnv
 from app.config.settings import Settings
+from app.container.container import Container
 from app.lifecycle import App, build_app
+from app.runtime.context import RunContext
+from app.runtime.runner import AgentRunner
+from app.workflows.base import BaseWorkflow
+
+
+class FailingWorkflow(BaseWorkflow):
+    async def arun(
+        self,
+        input_data: dict[str, Any],
+        context: RunContext,
+    ) -> dict[str, Any]:
+        del input_data, context
+        raise RuntimeError("workflow failed")
 
 
 def make_test_app(tmp_path: Path) -> App:
@@ -27,3 +42,13 @@ def test_runner_execution_returns_unified_result(tmp_path: Path) -> None:
     assert result["request_id"]
     assert result["status"] == "completed"
     assert result["result"]["output"]["status"] == "completed"
+
+
+def test_runner_returns_failed_result_for_workflow_error() -> None:
+    container = Container.build(app_settings=Settings(_env_file=None))
+    runner = AgentRunner(workflow=FailingWorkflow(), container=container)
+
+    result = asyncio.run(runner.arun("test"))
+
+    assert result["status"] == "failed"
+    assert result["error"] == "workflow failed"

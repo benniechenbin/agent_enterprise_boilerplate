@@ -4,5 +4,7 @@ services:
     volumes:
       - ./logs:/app/logs
     env_file:
-      - .env
-    restart: always
+      - path: .env
+        required: false
+    environment:
+      LOG_DIR: /app/logs

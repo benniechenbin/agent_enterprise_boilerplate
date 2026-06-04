@@ -4,7 +4,6 @@ from typing import Any
 from app.config.enums import ModelProvider
 from app.config.settings import Settings, get_settings
 from app.tools.registry import ToolRegistry
-from app.tools.search_tool import SearchTool
 
 
 class Container:
@@ -19,10 +18,15 @@ class Container:
         self.tools = tool_registry or ToolRegistry()
 
     @classmethod
-    def build(cls, app_settings: Settings | None = None) -> "Container":
-        registry = ToolRegistry()
-        registry.register(SearchTool())
-        return cls(app_settings=app_settings or get_settings(), tool_registry=registry)
+    def build(
+        cls,
+        app_settings: Settings | None = None,
+        tool_registry: ToolRegistry | None = None,
+    ) -> "Container":
+        return cls(
+            app_settings=app_settings or get_settings(),
+            tool_registry=tool_registry,
+        )
 
     def validate(self) -> None:
         self.settings.require_provider_credentials()

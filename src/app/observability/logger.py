@@ -8,7 +8,7 @@ from typing import Any
 from loguru import logger as logger
 
 from app.config.enums import AppEnv
-from app.config.settings import get_settings
+from app.config.settings import Settings, get_settings
 
 trace_id_var = contextvars.ContextVar("trace_id", default="system")
 
@@ -17,8 +17,9 @@ def setup_logger(
     log_dir: Path | None = None,
     log_level: str | None = None,
     log_prefix: str = "system",
+    app_settings: Settings | None = None,
 ) -> Path:
-    settings = get_settings()
+    settings = app_settings or get_settings()
     target_dir = log_dir or settings.resolved_log_dir
     target_level = log_level or settings.log_level
     target_dir.mkdir(parents=True, exist_ok=True)
@@ -69,8 +70,9 @@ def add_custom_file(
     log_dir: Path | None = None,
     level: str = "INFO",
     filter_rule: str | Callable[..., Any] | None = None,
+    app_settings: Settings | None = None,
 ) -> int:
-    settings = get_settings()
+    settings = app_settings or get_settings()
     target_dir = log_dir or settings.resolved_log_dir
     target_dir.mkdir(parents=True, exist_ok=True)
     return logger.add(

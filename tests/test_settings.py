@@ -3,13 +3,14 @@ from pathlib import Path
 import pytest
 
 from app.config.enums import ModelProvider
-from app.config.settings import BASE_DIR, Settings
+from app.config.settings import Settings
 
 
-def test_relative_log_dir_resolves_from_project_root() -> None:
+def test_relative_log_dir_resolves_from_working_directory(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.chdir(tmp_path)
     settings = Settings(_env_file=None, log_dir=Path("test_logs"))
 
-    assert settings.resolved_log_dir == BASE_DIR / "test_logs"
+    assert settings.resolved_log_dir == tmp_path / "test_logs"
 
 
 def test_absolute_log_dir_is_preserved(tmp_path: Path) -> None:

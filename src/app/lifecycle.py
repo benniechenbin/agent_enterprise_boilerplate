@@ -17,7 +17,7 @@ class App:
 
 def build_app(app_settings: Settings | None = None) -> App:
     settings = app_settings or get_settings()
-    setup_logger(log_dir=settings.resolved_log_dir, log_level=settings.log_level)
+    setup_logger(app_settings=settings)
     container = Container.build(app_settings=settings)
     workflow = LangGraphWorkflow(container=container)
     runner = AgentRunner(workflow=workflow, container=container)
