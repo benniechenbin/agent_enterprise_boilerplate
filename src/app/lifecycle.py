@@ -1,4 +1,4 @@
-from collections.abc import AsyncIterator
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 
@@ -25,7 +25,7 @@ def build_app(app_settings: Settings | None = None) -> App:
 
 
 @asynccontextmanager
-async def lifespan(app_settings: Settings | None = None) -> AsyncIterator[App]:
+async def lifespan(app_settings: Settings | None = None) -> AsyncGenerator[App, None]:
     app = build_app(app_settings=app_settings)
     try:
         yield app
