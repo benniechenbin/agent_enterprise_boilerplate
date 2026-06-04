@@ -45,7 +45,11 @@ class Container:
                 raise RuntimeError(message) from exc
 
             return ChatOpenAI(
-                api_key=self.settings.openai_api_key,
+                api_key=(
+                    self.settings.openai_api_key.get_secret_value()
+                    if self.settings.openai_api_key
+                    else None
+                ),
                 base_url=self.settings.openai_api_base,
                 model=self.settings.model_name,
             )

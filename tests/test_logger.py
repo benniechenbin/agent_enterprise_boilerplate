@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from loguru import logger
@@ -39,3 +40,40 @@ def test_setup_logger_uses_injected_settings(tmp_path: Path) -> None:
     resolved_dir = setup_logger(app_settings=settings)
 
     assert resolved_dir == settings.resolved_log_dir
+
+
+def test_logger_uses_pretty_logs_in_development(tmp_path: Path) -> None:
+    settings = Settings(
+        _env_file=None,
+        app_env=AppEnv.DEV,
+        log_format="auto",
+        log_dir=tmp_path,
+    )
+
+    resolved_dir = setup_logger(app_settings=settings)
+
+    assert resolved_dir == tmp_path
+
+
+def test_logger_uses_json_logs_in_production(tmp_path: Path) -> None:
+    settings = Settings(
+        _env_file=None,
+        app_env=AppEnv.PROD,
+        log_format="auto",
+        log_dir=tmp_path,
+    )
+
+    resolved_dir = setup_logger(app_settings=settings)
+
+    assert resolved_dir == tmp_path
+
+    logger.info("json log test")
+    logger.complete()
+
+    log_files = list(tmp_path.glob("*.jsonl"))
+    assert log_files
+
+    first_line = log_files[0].read_text(encoding="utf-8").splitlines()[0]
+    payload = json.loads(first_line)
+
+    assert isinstance(payload, dict)

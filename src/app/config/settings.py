@@ -1,5 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 
 from pydantic import AliasChoices, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -31,6 +32,11 @@ class Settings(BaseSettings):
     log_level: str = Field(
         default="INFO",
         description="Log level such as DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
+    )
+
+    log_format: Literal["auto", "pretty", "json"] = Field(
+        default="auto",
+        description="Log format: auto uses pretty logs in development and JSON logs in production.",
     )
 
     default_model_provider: ModelProvider = Field(
