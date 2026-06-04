@@ -1,10 +1,10 @@
 from functools import cached_property
 from typing import Any
 
-from agent_enterprise_boilerplate.config.enums import ModelProvider
-from agent_enterprise_boilerplate.config.settings import Settings, get_settings
-from agent_enterprise_boilerplate.tools.registry import ToolRegistry
-from agent_enterprise_boilerplate.tools.search_tool import SearchTool
+from app.config.enums import ModelProvider
+from app.config.settings import Settings, get_settings
+from app.tools.registry import ToolRegistry
+from app.tools.search_tool import SearchTool
 
 
 class Container:

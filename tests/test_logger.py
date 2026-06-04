@@ -2,7 +2,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from agent_enterprise_boilerplate.observability.logger import (
+from app.observability.logger import (
     get_trace_id,
     set_trace_id,
     setup_logger,

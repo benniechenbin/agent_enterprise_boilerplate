@@ -7,8 +7,8 @@ from typing import Any
 
 from loguru import logger as logger
 
-from agent_enterprise_boilerplate.config.enums import AppEnv
-from agent_enterprise_boilerplate.config.settings import get_settings
+from app.config.enums import AppEnv
+from app.config.settings import get_settings
 
 trace_id_var = contextvars.ContextVar("trace_id", default="system")
 

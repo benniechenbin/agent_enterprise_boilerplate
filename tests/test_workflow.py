@@ -1,10 +1,10 @@
 import asyncio
 
-from agent_enterprise_boilerplate.config.settings import Settings
-from agent_enterprise_boilerplate.container.container import Container
-from agent_enterprise_boilerplate.runtime.context import RunContext
-from agent_enterprise_boilerplate.workflows.base import BaseWorkflow
-from agent_enterprise_boilerplate.workflows.langgraph_workflow import LangGraphWorkflow
+from app.config.settings import Settings
+from app.container.container import Container
+from app.runtime.context import RunContext
+from app.workflows.base import BaseWorkflow
+from app.workflows.langgraph_workflow import LangGraphWorkflow
 
 
 def test_langgraph_workflow_completes_planner_and_executor() -> None:

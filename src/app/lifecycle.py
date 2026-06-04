@@ -2,11 +2,11 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 
-from agent_enterprise_boilerplate.config.settings import Settings, get_settings
-from agent_enterprise_boilerplate.container.container import Container
-from agent_enterprise_boilerplate.observability.logger import setup_logger
-from agent_enterprise_boilerplate.runtime.runner import AgentRunner
-from agent_enterprise_boilerplate.workflows.langgraph_workflow import LangGraphWorkflow
+from app.config.settings import Settings, get_settings
+from app.container.container import Container
+from app.observability.logger import setup_logger
+from app.runtime.runner import AgentRunner
+from app.workflows.langgraph_workflow import LangGraphWorkflow
 
 
 @dataclass(frozen=True, slots=True)

@@ -3,20 +3,24 @@ from typing import Any
 
 from langchain_core.runnables import RunnableConfig
 
-from agent_enterprise_boilerplate.container.container import Container
-from agent_enterprise_boilerplate.workflows.state import GraphState
+from app.container.container import Container
+from app.workflows.state import GraphState
 
 
-def make_planner_node(
+def make_executor_node(
     container: Container,
 ) -> Callable[..., Awaitable[dict[str, Any]]]:
-    async def planner_node(
+    async def executor_node(
         state: GraphState,
         config: RunnableConfig | None = None,
     ) -> dict[str, Any]:
         del config
         _ = container
-        request = state.get("input", "")
-        return {"plan": [request] if request else []}
+        return {
+            "output": {
+                "status": "completed",
+                "processed_steps": len(state.get("plan", [])),
+            }
+        }
 
-    return planner_node
+    return executor_node

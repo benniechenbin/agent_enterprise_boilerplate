@@ -1,9 +1,9 @@
 import asyncio
 from pathlib import Path
 
-from agent_enterprise_boilerplate.config.enums import AppEnv
-from agent_enterprise_boilerplate.config.settings import Settings
-from agent_enterprise_boilerplate.lifecycle import App, build_app
+from app.config.enums import AppEnv
+from app.config.settings import Settings
+from app.lifecycle import App, build_app
 
 
 def make_test_app(tmp_path: Path) -> App:

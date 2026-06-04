@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from agent_enterprise_boilerplate.runtime.context import RunContext
+from app.runtime.context import RunContext
 
 
 class BaseWorkflow(ABC):

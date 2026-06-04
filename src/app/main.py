@@ -2,8 +2,8 @@ import asyncio
 
 from loguru import logger
 
-from agent_enterprise_boilerplate.core.constants import DEFAULT_RUN_INPUT
-from agent_enterprise_boilerplate.lifecycle import build_app
+from app.core.constants import DEFAULT_RUN_INPUT
+from app.lifecycle import build_app
 
 
 async def main_async() -> None:

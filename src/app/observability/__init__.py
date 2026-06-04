@@ -1,4 +1,4 @@
-from agent_enterprise_boilerplate.observability.logger import (
+from app.observability.logger import (
     get_trace_id,
     logger,
     set_trace_id,

@@ -2,7 +2,7 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any
 
-from agent_enterprise_boilerplate import main as main_module
+from app import main as main_module
 
 
 def test_main_async_delegates_to_runner(monkeypatch) -> None:

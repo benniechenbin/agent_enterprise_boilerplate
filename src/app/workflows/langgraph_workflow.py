@@ -2,12 +2,12 @@ from typing import Any
 
 from langgraph.graph import END, START, StateGraph
 
-from agent_enterprise_boilerplate.container.container import Container
-from agent_enterprise_boilerplate.runtime.context import RunContext
-from agent_enterprise_boilerplate.workflows.base import BaseWorkflow
-from agent_enterprise_boilerplate.workflows.nodes.executor_node import make_executor_node
-from agent_enterprise_boilerplate.workflows.nodes.planner_node import make_planner_node
-from agent_enterprise_boilerplate.workflows.state import GraphState
+from app.container.container import Container
+from app.runtime.context import RunContext
+from app.workflows.base import BaseWorkflow
+from app.workflows.nodes.executor_node import make_executor_node
+from app.workflows.nodes.planner_node import make_planner_node
+from app.workflows.state import GraphState
 
 
 class LangGraphWorkflow(BaseWorkflow):

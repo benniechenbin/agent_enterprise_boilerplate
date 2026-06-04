@@ -26,10 +26,10 @@ dev = [
 ]
 
 [project.scripts]
-agent-app = "agent_enterprise_boilerplate.main:main"
+agent-app = "app.main:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/agent_enterprise_boilerplate"]
+packages = ["src/app"]
 
 [tool.uv]
 package = true
@@ -37,7 +37,7 @@ package = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
-addopts = "--cov=agent_enterprise_boilerplate --cov-report=term-missing --cov-report=xml"
+addopts = "--cov=app --cov-report=term-missing --cov-report=xml"
 
 [tool.ruff]
 line-length = 100
@@ -53,5 +53,5 @@ ignore_missing_imports = true
 exclude = ["tests"]
 
 [tool.coverage.run]
-source = ["agent_enterprise_boilerplate"]
+source = ["app"]
 omit = ["tests/*", "**/__init__.py"]

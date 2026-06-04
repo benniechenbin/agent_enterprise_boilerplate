@@ -1,10 +1,10 @@
 from typing import Any
 
-from agent_enterprise_boilerplate.container.container import Container
-from agent_enterprise_boilerplate.observability.logger import logger, set_trace_id
-from agent_enterprise_boilerplate.runtime.context import RunContext
-from agent_enterprise_boilerplate.runtime.events import RunStatus
-from agent_enterprise_boilerplate.workflows.base import BaseWorkflow
+from app.container.container import Container
+from app.observability.logger import logger, set_trace_id
+from app.runtime.context import RunContext
+from app.runtime.events import RunStatus
+from app.workflows.base import BaseWorkflow
 
 
 class AgentRunner:

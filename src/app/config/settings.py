@@ -4,7 +4,7 @@ from pathlib import Path
 from pydantic import AliasChoices, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from agent_enterprise_boilerplate.config.enums import AppEnv, ModelProvider
+from app.config.enums import AppEnv, ModelProvider
 
 
 def find_project_root(

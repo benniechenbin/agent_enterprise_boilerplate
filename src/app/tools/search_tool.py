@@ -1,6 +1,6 @@
 from typing import Any
 
-from agent_enterprise_boilerplate.tools.base import BaseTool
+from app.tools.base import BaseTool
 
 
 class SearchTool(BaseTool):
