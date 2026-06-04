@@ -18,60 +18,60 @@ class Settings(BaseSettings):
 
     app_name: str = Field(
         default="agent-enterprise-boilerplate",
-        description="Application name used in logs and runtime metadata.",
+        description="应用名称，用于日志与运行时元数据。",
     )
     app_env: AppEnv = Field(
         default=AppEnv.DEV,
-        description="Runtime environment: development, testing, or production.",
+        description="运行环境，可选值：development、testing、production。",
     )
 
     log_dir: Path = Field(
         default=Path("logs"),
-        description="Log directory. Relative paths resolve from the working directory.",
+        description="日志目录；相对路径基于当前工作目录解析。",
     )
     log_level: str = Field(
         default="INFO",
-        description="Log level such as DEBUG, INFO, WARNING, ERROR, or CRITICAL.",
+        description="日志级别，例如 DEBUG、INFO、WARNING、ERROR 或 CRITICAL。",
     )
 
     log_format: Literal["auto", "pretty", "json"] = Field(
         default="auto",
-        description="Log format: auto uses pretty logs in development and JSON logs in production.",
+        description="日志格式；auto 在开发环境使用易读格式，在生产环境使用 JSON 格式。",
     )
 
     default_model_provider: ModelProvider = Field(
         default=ModelProvider.OPENAI,
-        description="Default model provider.",
+        description="默认模型提供商。",
     )
     model_name: str = Field(
         default="gpt-4o-mini",
-        description="Default model name.",
+        description="默认模型名称。",
     )
     openai_api_key: SecretStr | None = Field(
         default=None,
-        description="OpenAI API key.",
+        description="OpenAI API 密钥。",
     )
     openai_api_base: str | None = Field(
         default=None,
-        description="Optional OpenAI-compatible API base URL.",
+        description="可选的 OpenAI 兼容 API 基础地址。",
     )
 
     anthropic_api_key: SecretStr | None = Field(
         default=None,
-        description="Anthropic API key.",
+        description="Anthropic API 密钥。",
     )
     google_api_key: SecretStr | None = Field(
         default=None,
         validation_alias=AliasChoices("GOOGLE_API_KEY", "GEMINI_API_KEY"),
-        description="Google or Gemini API key. GOOGLE_API_KEY is the preferred name.",
+        description="Google 或 Gemini API 密钥；优先使用 GOOGLE_API_KEY。",
     )
     deepseek_api_key: SecretStr | None = Field(
         default=None,
-        description="DeepSeek API key.",
+        description="DeepSeek API 密钥。",
     )
     tavily_api_key: SecretStr | None = Field(
         default=None,
-        description="Tavily API key used by an optional search integration.",
+        description="可选搜索集成使用的 Tavily API 密钥。",
     )
 
     @property

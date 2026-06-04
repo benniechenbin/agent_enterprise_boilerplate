@@ -1,2 +1,2 @@
 def placeholder_api() -> None:
-    """Extension point for an HTTP or RPC adapter."""
+    """HTTP 或 RPC 适配器的扩展点。"""

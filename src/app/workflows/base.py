@@ -11,4 +11,4 @@ class BaseWorkflow(ABC):
         input_data: dict[str, Any],
         context: RunContext,
     ) -> dict[str, Any]:
-        """Execute the workflow for one run."""
+        """执行一次工作流。"""

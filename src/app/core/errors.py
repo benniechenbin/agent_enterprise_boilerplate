@@ -1,6 +1,6 @@
 class AgentApplicationError(RuntimeError):
-    """Base error for application-level failures."""
+    """应用级异常基类。"""
 
 
 class WorkflowExecutionError(AgentApplicationError):
-    """Raised when a workflow cannot complete."""
+    """工作流无法完成时抛出的异常。"""

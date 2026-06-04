@@ -1,1 +1,1 @@
-"""Optional API adapters."""
+"""可选的 API 适配层。"""

@@ -1,3 +1,3 @@
-"""Progressive agent application boilerplate."""
+"""渐进式 Agent 应用工程模板。"""
 
 __version__ = "0.1.0"

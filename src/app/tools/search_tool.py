@@ -4,7 +4,7 @@ from app.tools.base import BaseTool
 
 
 class SearchTool(BaseTool):
-    """Placeholder for a project-specific search implementation."""
+    """项目专用搜索实现的占位工具。"""
 
     @property
     def name(self) -> str:

@@ -8,7 +8,7 @@ from app.workflows.base import BaseWorkflow
 
 
 class AgentRunner:
-    """Thin control layer around one workflow execution."""
+    """单次工作流执行的轻量控制层。"""
 
     def __init__(self, workflow: BaseWorkflow, container: Container) -> None:
         self.workflow = workflow

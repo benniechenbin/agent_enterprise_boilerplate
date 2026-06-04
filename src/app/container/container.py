@@ -7,7 +7,7 @@ from app.tools.registry import ToolRegistry
 
 
 class Container:
-    """Explicitly assembled application resources."""
+    """显式装配应用资源的容器。"""
 
     def __init__(
         self,
@@ -45,11 +45,7 @@ class Container:
                 raise RuntimeError(message) from exc
 
             return ChatOpenAI(
-                api_key=(
-                    self.settings.openai_api_key.get_secret_value()
-                    if self.settings.openai_api_key
-                    else None
-                ),
+                api_key=self.settings.openai_api_key,
                 base_url=self.settings.openai_api_base,
                 model=self.settings.model_name,
             )

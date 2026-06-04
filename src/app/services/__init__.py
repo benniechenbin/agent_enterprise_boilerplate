@@ -1,1 +1,1 @@
-"""External service interfaces."""
+"""外部服务接口。"""

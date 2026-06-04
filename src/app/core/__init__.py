@@ -1,1 +1,1 @@
-"""Shared types, constants, and errors."""
+"""共享类型、常量与异常。"""

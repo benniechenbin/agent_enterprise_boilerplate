@@ -70,8 +70,8 @@ def _default_to_env_value(field_name: str, field: FieldInfo) -> str:
 
 def build_env_example(settings_class: type[BaseSettings] = Settings) -> str:
     lines = [
-        "# Generated from app.config.settings.Settings.",
-        "# Do not add real secrets to this file.",
+        "# 由 app.config.settings.Settings 自动生成。",
+        "# 请勿在此文件中填写真实密钥。",
         "",
     ]
 
@@ -96,7 +96,7 @@ def write_env_example(output_file: Path = DEFAULT_OUTPUT_FILE) -> bool:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Generate .env.example from app.config.settings.Settings."
+        description="根据 app.config.settings.Settings 生成 .env.example。"
     )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_FILE)
     parser.add_argument("--check", action="store_true")

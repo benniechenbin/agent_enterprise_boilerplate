@@ -2,6 +2,6 @@ from typing import Any, Protocol
 
 
 class Tracer(Protocol):
-    """Extension point for a future tracing implementation."""
+    """未来追踪实现的扩展接口。"""
 
     def add_event(self, name: str, attributes: dict[str, Any] | None = None) -> None: ...

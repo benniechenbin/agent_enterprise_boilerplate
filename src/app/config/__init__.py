@@ -1,1 +1,1 @@
-"""Application configuration."""
+"""应用配置。"""
