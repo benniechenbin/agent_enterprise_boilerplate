@@ -22,7 +22,7 @@ do not call an LLM or contain project-specific business logic.
 ## Quick Start
 
 ```bash
-uv sync
+uv sync --extra dev
 uv run agent-app
 uv run pytest
 uv run ruff check .

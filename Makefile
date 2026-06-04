@@ -1,7 +1,7 @@
 .PHONY: run test lint check clean install
 
 install:
-	uv sync
+	uv sync --extra dev
 
 run:
 	uv run agent-app
