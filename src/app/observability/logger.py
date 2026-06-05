@@ -3,7 +3,8 @@ from __future__ import annotations
 import contextvars
 import sys
 import uuid
-from collections.abc import Callable
+from collections.abc import Callable, Generator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -11,6 +12,16 @@ from loguru import logger as logger
 
 from app.config.enums import AppEnv
 from app.config.settings import Settings, get_settings
+
+__all__ = [
+    "logger",
+    "setup_logger",
+    "shutdown_logger",
+    "add_custom_file",
+    "set_trace_id",
+    "get_trace_id",
+    "trace_id_var",
+]
 
 if TYPE_CHECKING:
     from loguru import Record
@@ -98,6 +109,16 @@ def set_trace_id(new_id: str | None = None) -> str:
     trace_id = new_id or uuid.uuid4().hex
     trace_id_var.set(trace_id)
     return trace_id
+
+
+@contextmanager
+def trace_context(trace_id: str | None = None) -> Generator[str, None, None]:
+    new_trace_id = trace_id or uuid.uuid4().hex
+    token = trace_id_var.set(new_trace_id)
+    try:
+        yield new_trace_id
+    finally:
+        trace_id_var.reset(token)
 
 
 def get_trace_id() -> str:

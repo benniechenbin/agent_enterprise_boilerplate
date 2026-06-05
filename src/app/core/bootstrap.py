@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -33,6 +32,8 @@ def init_workspace(
     global _state
 
     if _state is not None:
+        if app_settings is not None and app_settings != _state.settings:
+            raise RuntimeError("workspace 已初始化，不能使用不同 settings 重复初始化")
         return _state
 
     settings = app_settings or get_settings()
@@ -42,7 +43,6 @@ def init_workspace(
 
     log_dir = setup_logger(log_dir=settings.resolved_log_dir)
 
-    _check_python_version()
     _validate_env_vars(settings)
     _ensure_directories(settings)
 
@@ -71,12 +71,6 @@ def shutdown_workspace() -> None:
     logger.info("🛑 工作空间关闭：{}", _state.settings.app_name)
     shutdown_logger()
     _state = None
-
-
-def _check_python_version() -> None:
-    if sys.version_info < (3, 10):  # noqa: UP036
-        logger.error("❌ 启动失败：Python 版本过低，本项目至少需要 Python 3.10")
-        sys.exit(1)
 
 
 def _validate_env_vars(settings: Settings) -> None:

@@ -39,29 +39,36 @@ class App:
             show_startup_banner=show_startup_banner,
         )
 
-        if hasattr(self.container, "start"):
-            self.container.start()
+        try:
+            if hasattr(self.container, "start"):
+                self.container.start()
 
-        self._started = True
+            self._started = True
 
-        if register_atexit and not self._atexit_registered:
-            atexit.register(self.shutdown)
-            self._atexit_registered = True
+            if register_atexit and not self._atexit_registered:
+                atexit.register(self.shutdown)
+                self._atexit_registered = True
 
-        return self
+            return self
+
+        except Exception:
+            shutdown_workspace()
+            raise
 
     def shutdown(self) -> None:
         if not self._started:
             return
 
-        if hasattr(self.runner, "shutdown"):
-            self.runner.shutdown()
+        try:
+            if hasattr(self.runner, "shutdown"):
+                self.runner.shutdown()
 
-        if hasattr(self.container, "shutdown"):
-            self.container.shutdown()
+            if hasattr(self.container, "shutdown"):
+                self.container.shutdown()
 
-        shutdown_workspace()
-        self._started = False
+        finally:
+            shutdown_workspace()
+            self._started = False
 
 
 def create_app(app_settings: Settings | None = None) -> App:
