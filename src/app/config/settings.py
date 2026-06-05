@@ -8,6 +8,18 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from app.config.enums import AppEnv, ModelProvider
 
 
+def find_project_root(
+    current_path: Path, markers: tuple[str, ...] = ("pyproject.toml", "requirements.txt", ".git")
+) -> Path:
+    for parent in current_path.parents:
+        if any((parent / marker).exists() for marker in markers):
+            return parent
+    return current_path.parent
+
+
+BASE_DIR = find_project_root(Path(__file__).resolve())
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",

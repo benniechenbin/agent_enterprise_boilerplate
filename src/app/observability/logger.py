@@ -104,6 +104,20 @@ def get_trace_id() -> str:
     return trace_id_var.get()
 
 
+def shutdown_logger() -> None:
+    """
+    关闭日志系统。
+
+    作用：
+    1. 等待 enqueue=True 的日志写入完成
+    2. 移除所有 Loguru handlers
+    """
+    try:
+        logger.complete()
+    finally:
+        logger.remove()
+
+
 def add_custom_file(
     file_name: str,
     log_dir: Path | None = None,
