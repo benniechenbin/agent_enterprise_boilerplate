@@ -90,7 +90,7 @@ class Settings(BaseSettings):
     def resolved_log_dir(self) -> Path:
         if self.log_dir.is_absolute():
             return self.log_dir
-        return Path.cwd() / self.log_dir
+        return BASE_DIR / self.log_dir
 
     def require_provider_credentials(self, provider: ModelProvider | None = None) -> None:
         selected_provider = provider or self.default_model_provider
